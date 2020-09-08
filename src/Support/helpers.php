@@ -2,14 +2,16 @@
 
 use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 
-if (!function_exists('modules')) {
+if (! function_exists('modules')) {
     /**
      * Get modules repository.
      *
      * @param string $location
+     *
      * @return \Caffeinated\Modules\RepositoryManager|\Caffeinated\Modules\Repositories\Repository
      */
-    function modules($location = null) {
+    function modules($location = null)
+    {
         if ($location) {
             return app('modules')->location($location);
         }
@@ -18,14 +20,15 @@ if (!function_exists('modules')) {
     }
 }
 
-if (!function_exists('module_path')) {
+if (! function_exists('module_path')) {
     /**
      * Return the path to the given module file.
      *
-     * @param string $slug
-     * @param string $file
+     * @param string      $slug
+     * @param string      $file
      *
      * @param string|null $location
+     *
      * @return string
      * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
      */
@@ -47,7 +50,7 @@ if (!function_exists('module_path')) {
 
         $module = Module::location($location)->where('slug', $slug);
 
-        if (is_null($module)) {
+        if ($module->isEmpty()) {
             throw new ModuleNotFoundException($slug);
         }
 
@@ -55,13 +58,14 @@ if (!function_exists('module_path')) {
     }
 }
 
-if (!function_exists('module_class')) {
+if (! function_exists('module_class')) {
     /**
      * Return the full path to the given module class.
      *
      * @param string $slug
      * @param string $class
      * @param string $location
+     *
      * @return string
      * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
      */
@@ -70,7 +74,7 @@ if (!function_exists('module_class')) {
         $location = $location ?: config('modules.default_location');
         $module = modules($location)->where('slug', $slug);
 
-        if (is_null($module)) {
+        if ($module->isEmpty()) {
             throw new ModuleNotFoundException($slug);
         }
 
